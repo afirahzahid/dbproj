@@ -11,8 +11,10 @@ namespace MobileInfo.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Brand
+	using System.ComponentModel;
+	using System.Web;
+
+	public partial class Brand
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Brand()
@@ -23,9 +25,11 @@ namespace MobileInfo.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Country { get; set; }
+		[DisplayName("Upload Image")]
         public string Image { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public HttpPostedFileBase ImageFile { get; set; }
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Mobile> Mobiles { get; set; }
     }
 }

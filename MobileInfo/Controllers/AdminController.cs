@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MobileInfo.Models;
+using System.Web.UI;
 
 namespace MobileInfo.Controllers
 {
@@ -62,28 +64,31 @@ namespace MobileInfo.Controllers
 			return View();
 		}
 
+		[HttpGet]
 		public ActionResult RegisterBrand()
 		{
 			return View();
 		}
+
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public ActionResult RegisterBrand(Brand obj)
 		{
-			if (ModelState.IsValid)
+			string fileName = Path.GetFileNameWithoutExtension(obj.ImageFile.FileName);
+			string extension = Path.GetExtension(obj.ImageFile.FileName);
+			fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+			obj.Image = "~/Image/" + fileName;
+			fileName = Path.Combine(Server.MapPath("~/Image/"), fileName);
+			obj.ImageFile.SaveAs(fileName);
+			using (DB16Entities db = new DB16Entities())
 			{
-				using (DB16Entities db = new DB16Entities())
-				{
-					db.Brands.Add(obj);
-					db.SaveChanges();
-					ModelState.Clear();
-					obj = null;
-			
-					ViewBag.Message = "Registered Successful";
-					return RedirectToAction("RegisterBrand");
-				}
+				db.Brands.Add(obj);
+				db.SaveChanges();
+				ModelState.Clear();
+				obj = null;
+
+				ViewBag.Message = "Registered Successful";
+				return RedirectToAction("RegisterBrand");
 			}
-			return View(obj);
 		}
 
 		[HttpGet]
@@ -183,43 +188,31 @@ namespace MobileInfo.Controllers
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			Brand user = db.Brands.Find(id);
-			if (user == null)
+			Brand s = db.Brands.SingleOrDefault(x => x.Id == id);
+			if (s == null)
 			{
 				return HttpNotFound();
 			}
-			return View(user);
+			return View(s);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "Id, Name, Country, Image")] Brand user)
+		public ActionResult Edit(Brand obj)
 		{
-			try
-			{
-				db.Entry(user).State = EntityState.Modified;
-				db.SaveChanges();
-				return RedirectToAction("BIndex");
-
-			}
-			catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
-			{
-				Exception raise = dbEx;
-				foreach (var validationErrors in dbEx.EntityValidationErrors)
-				{
-					foreach (var validationError in validationErrors.ValidationErrors)
-					{
-						string message = string.Format("{0}:{1}",
-							validationErrors.Entry.Entity.ToString(),
-							validationError.ErrorMessage);
-						// raise a new exception nesting  
-						// the current instance as InnerException  
-						raise = new InvalidOperationException(message, raise);
-					}
-				}
-				throw raise;
-			}
+			string fileName = Path.GetFileNameWithoutExtension(obj.ImageFile.FileName);
+			string extension = Path.GetExtension(obj.ImageFile.FileName);
+			fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+			obj.Image = "~/Image/" + fileName;
+			fileName = Path.Combine(Server.MapPath("~/Image/"), fileName);
+			obj.ImageFile.SaveAs(fileName);
+			db.Entry(obj).State = EntityState.Modified;
+			db.SaveChanges();
+			return RedirectToAction("BIndex");
+			
 		}
+
+
 
 		public ActionResult BDelete(int? id)
 		{
@@ -247,6 +240,15 @@ namespace MobileInfo.Controllers
 			db.SaveChanges();
 			return RedirectToAction("BIndex");
 		}
-		
-    }
+
+		public ActionResult BDetails(int? id)
+		{
+			Brand b = new Brand();
+			using (DB16Entities db = new DB16Entities())
+			{
+				b = db.Brands.Where(x => x.Id == id).FirstOrDefault();
+			}
+			return View(b);
+		}
+	}
 }
