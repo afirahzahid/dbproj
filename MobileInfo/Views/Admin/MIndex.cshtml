@@ -1,0 +1,273 @@
+﻿@model IEnumerable<MobileInfo.Models.Mobile>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UI)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Dimensions)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Weight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SIM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Colors)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.C2G_Band)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.C3G_Band)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.C4G_Band)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CPU)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Chipset)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GPU)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Technology)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Size)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Resolution)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Built_in_Memory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Card)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Main_Camera)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Camera_Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Features)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Front_Camera)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WLAN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bluetooth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GPS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.USB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NFC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Data)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sensors)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Audio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Browser)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Messaging)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Games)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Torch)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Extra)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Battery)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Announced_On)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BrandId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Picture)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UI)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Dimensions)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Weight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SIM)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Colors)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.C2G_Band)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.C3G_Band)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.C4G_Band)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CPU)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Chipset)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GPU)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Technology)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Size)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Resolution)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Built_in_Memory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Card)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Main_Camera)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Camera_Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Features)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Front_Camera)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WLAN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bluetooth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GPS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.USB)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NFC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Data)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sensors)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Audio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Browser)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Messaging)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Games)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Torch)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Extra)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Battery)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Announced_On)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BrandId)
+        </td>
+        <td>
+			<img src="@Url.Content(item.Picture)" height="150" width="150" />
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "MEdit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "MDelete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

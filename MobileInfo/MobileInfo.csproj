@@ -664,6 +664,9 @@
     <Content Include="Views\Admin\BIndex.cshtml" />
     <Content Include="Views\Admin\BDelete.cshtml" />
     <Content Include="Views\Admin\BDetails.cshtml" />
+    <Content Include="Views\Admin\MEdit.cshtml" />
+    <Content Include="Views\Admin\MIndex.cshtml" />
+    <Content Include="Views\Admin\MDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
