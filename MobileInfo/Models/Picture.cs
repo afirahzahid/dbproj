@@ -15,8 +15,8 @@ namespace MobileInfo.Models
     public partial class Picture
     {
         public int Id { get; set; }
-        public byte[] Picture1 { get; set; }
         public int MobileId { get; set; }
+        public string Image { get; set; }
     
         public virtual Mobile Mobile { get; set; }
     }

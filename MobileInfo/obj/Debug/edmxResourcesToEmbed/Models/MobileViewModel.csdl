@@ -74,9 +74,9 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" />
-    <Property Name="Picture1" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
     <Property Name="MobileId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Mobile" Relationship="Self.FK_Pictures_Mobile" FromRole="Pictures" ToRole="Mobile" />
+    <Property Name="Image" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Review">
     <Key>
@@ -89,16 +89,6 @@
     <Property Name="Opinion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="MobileId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Mobile" Relationship="Self.FK_Reviews_Mobile" FromRole="Reviews" ToRole="Mobile" />
-  </EntityType>
-  <EntityType Name="sysdiagram">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
   <Association Name="FK_Mobile_Brands">
     <End Role="Brands" Type="Self.Brand" Multiplicity="1" />
@@ -142,7 +132,6 @@
     <EntitySet Name="Mobiles" EntityType="Self.Mobile" />
     <EntitySet Name="Pictures" EntityType="Self.Picture" />
     <EntitySet Name="Reviews" EntityType="Self.Review" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <AssociationSet Name="FK_Mobile_Brands" Association="Self.FK_Mobile_Brands">
       <End Role="Brands" EntitySet="Brands" />
       <End Role="Mobile" EntitySet="Mobiles" />
