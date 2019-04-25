@@ -668,6 +668,10 @@
     <Content Include="Views\Admin\MIndex.cshtml" />
     <Content Include="Views\Admin\MDelete.cshtml" />
     <Content Include="Views\Admin\MDetails.cshtml" />
+    <Content Include="Views\Admin\PIndex.cshtml" />
+    <Content Include="Views\Admin\RegisterPicture.cshtml" />
+    <Content Include="Views\Admin\PEdit.cshtml" />
+    <Content Include="Views\Admin\PDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

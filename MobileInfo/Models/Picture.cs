@@ -11,13 +11,16 @@ namespace MobileInfo.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Picture
+	using System.Web;
+
+	public partial class Picture
     {
         public int Id { get; set; }
         public int MobileId { get; set; }
         public string Image { get; set; }
-    
-        public virtual Mobile Mobile { get; set; }
+
+		public HttpPostedFileBase ImageFile1 { get; set; }
+
+		public virtual Mobile Mobile { get; set; }
     }
 }

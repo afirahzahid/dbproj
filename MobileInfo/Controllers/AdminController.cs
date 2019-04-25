@@ -17,7 +17,8 @@ namespace MobileInfo.Controllers
 		// GET: Admin
 
 		private DB16Entities db = new DB16Entities();
-
+		SqlConnection con = new SqlConnection(@"Data Source = HAIER - PC\SQLEXPRESS; Initial Catalog = ProjectA; Integrated Security = True");
+		SqlConnection con1 = new SqlConnection(@"Data Source =HAIER-PC\SQLEXPRESS;initial catalog = DB16; integrated security = True");
 		public ActionResult BIndex()
 		{
 			using (DB16Entities db = new DB16Entities())
@@ -86,6 +87,93 @@ namespace MobileInfo.Controllers
 			}
 		}
 
+
+		[HttpGet]
+		public ActionResult Edit(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Brand s = db.Brands.SingleOrDefault(x => x.Id == id);
+			if (s == null)
+			{
+				return HttpNotFound();
+			}
+			return View(s);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(Brand obj)
+		{
+			string fileName = Path.GetFileNameWithoutExtension(obj.ImageFile.FileName);
+			string extension = Path.GetExtension(obj.ImageFile.FileName);
+			fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+			obj.Image = "~/Image/" + fileName;
+			fileName = Path.Combine(Server.MapPath("~/Image/"), fileName);
+			obj.ImageFile.SaveAs(fileName);
+			db.Entry(obj).State = EntityState.Modified;
+			db.SaveChanges();
+			return RedirectToAction("BIndex");
+
+		}
+
+		public ActionResult BDelete(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Brand user = db.Brands.Find(id);
+			if (user == null)
+			{
+				return HttpNotFound();
+			}
+			return View(user);
+		}
+
+		[HttpPost, ActionName("BDelete")]
+		[ValidateAntiForgeryToken]
+		public ActionResult BDeleteConfirmed(int id)
+		{
+			string que = "SELECT Id From Mobile WHERE BrandId = '" + id + "'";
+			if (con1.State == System.Data.ConnectionState.Closed)
+			{
+				con1.Open();
+			}
+			SqlCommand cmd = new SqlCommand(que, con1);
+			SqlDataReader reader = cmd.ExecuteReader();
+			List<Int32> list1 = new List<Int32>();
+			int v = 0;
+			int z = 0;
+			int i = 0;
+			while (reader.Read())
+			{
+				v = Int32.Parse(reader[0].ToString());
+				int a = v;
+				db.Pictures.Where(x => x.MobileId == a).ToList().ForEach(x => db.Pictures.Remove(x));
+				int b = v;
+				db.Mobiles.Where(x => x.Id == b).ToList().ForEach(x => db.Mobiles.Remove(x));
+				i++;
+			}
+			Brand user = db.Brands.Find(id);
+			db.Brands.Remove(user);
+			db.SaveChanges();
+			return RedirectToAction("BIndex");
+		}
+
+		public ActionResult BDetails(int? id)
+		{
+			Brand b = new Brand();
+			using (DB16Entities db = new DB16Entities())
+			{
+				b = db.Brands.Where(x => x.Id == id).FirstOrDefault();
+			}
+			return View(b);
+		}
+
+		//************************** Mobile ***********************//
 		public ActionResult MIndex()
 		{
 			using (DB16Entities db = new DB16Entities())
@@ -94,6 +182,7 @@ namespace MobileInfo.Controllers
 			}
 
 		}
+
 
 		[HttpGet]
 		public ActionResult RegisterMobile(int id = 0)
@@ -144,7 +233,7 @@ namespace MobileInfo.Controllers
 			{
 				return HttpNotFound();
 			}
-			ViewBag.Id = new SelectList(db.Brands, "Id", "Name", s.BrandId);
+			ViewBag.BrandId = new SelectList(db.Brands, "Id", "Name", s.BrandId);
 			return View(s);
 		}
 
@@ -159,12 +248,11 @@ namespace MobileInfo.Controllers
 			fileName = Path.Combine(Server.MapPath("~/Image/"), fileName);
 			obj.ImageFile1.SaveAs(fileName);
 	
+
+
 			db.Entry(obj).State = EntityState.Modified;
 			db.SaveChanges();
-
-			ViewBag.Id = new SelectList(db.Brands, "Id", "Name", obj.BrandId);
 			return RedirectToAction("MIndex");
-
 		}
 
 		public ActionResult MDelete(int? id)
@@ -186,10 +274,26 @@ namespace MobileInfo.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult MDeleteConfirmed(int id)
 		{
-			Mobile user = db.Mobiles.Find(id);
-			//dbStudent student = db.dbStudents.SingleOrDefault(x => x.S_Email == user.LoginEmail);
-			//db.dbStudents.Remove(student);
-			db.Mobiles.Remove(user);
+			string que = "SELECT Id From Mobile WHERE BrandId = '" + id + "'";
+			if (con1.State == System.Data.ConnectionState.Closed)
+			{
+				con1.Open();
+			}
+			SqlCommand cmd = new SqlCommand(que, con1);
+			SqlDataReader reader = cmd.ExecuteReader();
+			List<Int32> list1 = new List<Int32>();
+			int v = 0;
+			int z = 0;
+			int i = 0;
+			while (reader.Read())
+			{
+				v = Int32.Parse(reader[0].ToString());
+				int b = v;
+				db.Mobiles.Where(x => x.Id == b).ToList().ForEach(x => db.Mobiles.Remove(x));
+				i++;
+			}
+			Brand user = db.Brands.Find(id);
+			db.Brands.Remove(user);
 			db.SaveChanges();
 			return RedirectToAction("MIndex");
 		}
@@ -232,44 +336,94 @@ namespace MobileInfo.Controllers
             }
         }
 
+		public ActionResult PIndex()
+		{
+			using (DB16Entities db = new DB16Entities())
+			{
+				return View(db.Pictures.ToList());
+			}
+
+		}
+
 		[HttpGet]
-		public ActionResult Edit(int? id)
+		public ActionResult RegisterPicture(int id = 0)
+		{
+			ViewBag.MobileId = new SelectList(db.Mobiles, "Id", "Name");
+			//Mobile m = new Mobile();
+			//using (DB16Entities db = new DB16Entities())
+			//{
+			//		if (id != 0)
+			//		{
+			//		m = db.Mobiles.Where(x => x.Id == id).FirstOrDefault();
+			//}
+			//	m.BrandCollection = db.Brands.ToList<Brand>();
+			//	}
+			return View();
+		}
+		
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult RegisterPicture(Picture obj)
+		{
+			string fileName = Path.GetFileNameWithoutExtension(obj.ImageFile1.FileName);
+			string extension = Path.GetExtension(obj.ImageFile1.FileName);
+			fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+			obj.Image = "~/Image/" + fileName;
+			fileName = Path.Combine(Server.MapPath("~/Image/"), fileName);
+			obj.ImageFile1.SaveAs(fileName);
+			using (DB16Entities db = new DB16Entities())
+			{
+				db.Pictures.Add(obj);
+				db.SaveChanges();
+				ModelState.Clear();
+				obj = null;
+
+				TempData["msg"] = "<script>alert('Register successfully');</script>";
+				return RedirectToAction("RegisterPicture");
+			}
+		}
+
+		public ActionResult PEdit(int? id)
 		{
 			if (id == null)
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			Brand s = db.Brands.SingleOrDefault(x => x.Id == id);
+			Picture s = db.Pictures.Find(id);
 			if (s == null)
 			{
 				return HttpNotFound();
 			}
+			ViewBag.MobileId = new SelectList(db.Mobiles, "Id", "Name", s.MobileId);
 			return View(s);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit(Brand obj)
+		public ActionResult PEdit(Picture obj)
 		{
-			string fileName = Path.GetFileNameWithoutExtension(obj.ImageFile.FileName);
-			string extension = Path.GetExtension(obj.ImageFile.FileName);
+			string fileName = Path.GetFileNameWithoutExtension(obj.ImageFile1.FileName);
+			string extension = Path.GetExtension(obj.ImageFile1.FileName);
 			fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
 			obj.Image = "~/Image/" + fileName;
 			fileName = Path.Combine(Server.MapPath("~/Image/"), fileName);
-			obj.ImageFile.SaveAs(fileName);
+			obj.ImageFile1.SaveAs(fileName);
+
 			db.Entry(obj).State = EntityState.Modified;
 			db.SaveChanges();
-			return RedirectToAction("BIndex");
-			
+
+			//ViewBag.Id = new SelectList(db.Mobiles, "Id", "Name", obj.MobileId);
+			return RedirectToAction("MIndex");
+
 		}
 
-		public ActionResult BDelete(int? id)
+		public ActionResult PDelete(int? id)
 		{
 			if (id == null)
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			Brand user = db.Brands.Find(id);
+			Picture user = db.Pictures.Find(id);
 			if (user == null)
 			{
 				return HttpNotFound();
@@ -277,26 +431,35 @@ namespace MobileInfo.Controllers
 			return View(user);
 		}
 
-		[HttpPost, ActionName("BDelete")]
+
+		[HttpPost, ActionName("PDelete")]
 		[ValidateAntiForgeryToken]
-		public ActionResult BDeleteConfirmed(int id)
+		public ActionResult PDeleteConfirmed(int id)
 		{
-			Brand user = db.Brands.Find(id);
-			Mobile m = db.Mobiles.SingleOrDefault(x => x.BrandId == user.Id);
-			db.Mobiles.Remove(m);
-			db.Brands.Remove(user);
+			/*
+			Picture user = db.Pictures.Find(id);
+			//dbStudent student = db.dbStudents.SingleOrDefault(x => x.S_Email == user.LoginEmail);
+			//db.dbStudents.Remove(student);
+			db.Pictures.Remove(user);
 			db.SaveChanges();
-			return RedirectToAction("BIndex");
+			return RedirectToAction("MPIndex");
+			*/
+			
+			Picture p = db.Pictures.Find(id);
+			db.Pictures.Remove(p);
+			db.SaveChanges();
+			return RedirectToAction("PIndex");
 		}
 
-		public ActionResult BDetails(int? id)
+		public ActionResult PDetails(int? id)
 		{
-			Brand b = new Brand();
+			Picture p = new Picture();
 			using (DB16Entities db = new DB16Entities())
 			{
-				b = db.Brands.Where(x => x.Id == id).FirstOrDefault();
+				p = db.Pictures.Where(x => x.Id == id).FirstOrDefault();
 			}
-			return View(b);
+			return View(p);
 		}
+		
 	}
 }
