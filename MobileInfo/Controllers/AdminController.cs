@@ -98,16 +98,17 @@ namespace MobileInfo.Controllers
 		[HttpGet]
 		public ActionResult RegisterMobile(int id = 0)
 		{
-			Mobile m = new Mobile();
-			using (DB16Entities db = new DB16Entities())
-			{
-				if (id != 0)
-				{
-					m = db.Mobiles.Where(x => x.Id == id).FirstOrDefault();
-				}
-				m.BrandCollection = db.Brands.ToList<Brand>();
-			}
-			return View(m);
+			ViewBag.BrandId = new SelectList(db.Brands, "Id", "Name");
+			//Mobile m = new Mobile();
+			//using (DB16Entities db = new DB16Entities())
+			//{
+	//		if (id != 0)
+		//		{
+			//		m = db.Mobiles.Where(x => x.Id == id).FirstOrDefault();
+				//}
+			//	m.BrandCollection = db.Brands.ToList<Brand>();
+		//	}
+			return View();
 		}
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -123,6 +124,7 @@ namespace MobileInfo.Controllers
 			{
 				db.Mobiles.Add(obj);
 				db.SaveChanges();
+				//ViewBag.Id = new SelectList(db.Brands, "Id", "Name", obj.BrandId);
 				ModelState.Clear();
 				obj = null;
 
@@ -137,11 +139,12 @@ namespace MobileInfo.Controllers
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			Mobile s = db.Mobiles.SingleOrDefault(x => x.Id == id);
+			Mobile s = db.Mobiles.Find(id);
 			if (s == null)
 			{
 				return HttpNotFound();
 			}
+			ViewBag.Id = new SelectList(db.Brands, "Id", "Name", s.BrandId);
 			return View(s);
 		}
 
@@ -155,8 +158,11 @@ namespace MobileInfo.Controllers
 			obj.Picture = "~/Image/" + fileName;
 			fileName = Path.Combine(Server.MapPath("~/Image/"), fileName);
 			obj.ImageFile1.SaveAs(fileName);
+	
 			db.Entry(obj).State = EntityState.Modified;
 			db.SaveChanges();
+
+			ViewBag.Id = new SelectList(db.Brands, "Id", "Name", obj.BrandId);
 			return RedirectToAction("MIndex");
 
 		}
@@ -186,6 +192,16 @@ namespace MobileInfo.Controllers
 			db.Mobiles.Remove(user);
 			db.SaveChanges();
 			return RedirectToAction("MIndex");
+		}
+
+		public ActionResult MDetails(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Mobile m = db.Mobiles.Find(id);
+			return View(m);
 		}
 
 		// GET: Admin/Details/5
@@ -261,14 +277,13 @@ namespace MobileInfo.Controllers
 			return View(user);
 		}
 
-
 		[HttpPost, ActionName("BDelete")]
 		[ValidateAntiForgeryToken]
 		public ActionResult BDeleteConfirmed(int id)
 		{
 			Brand user = db.Brands.Find(id);
-			//dbStudent student = db.dbStudents.SingleOrDefault(x => x.S_Email == user.LoginEmail);
-			//db.dbStudents.Remove(student);
+			Mobile m = db.Mobiles.SingleOrDefault(x => x.BrandId == user.Id);
+			db.Mobiles.Remove(m);
 			db.Brands.Remove(user);
 			db.SaveChanges();
 			return RedirectToAction("BIndex");

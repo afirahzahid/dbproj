@@ -13,6 +13,7 @@ namespace MobileInfo.Models
     using System.Collections.Generic;
 	using System.ComponentModel.DataAnnotations.Schema;
 	using System.Web;
+	using System.Web.Mvc;
 
 	public partial class Mobile
     {
