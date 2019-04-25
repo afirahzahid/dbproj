@@ -13,8 +13,9 @@ using System.Web.UI;
 namespace MobileInfo.Controllers
 {
     public class AdminController : Controller
-    {
-		// GET: Admin
+	{
+		//lalalala
+		//lalala
 
 		private DB16Entities db = new DB16Entities();
 		SqlConnection con = new SqlConnection(@"Data Source = HAIER - PC\SQLEXPRESS; Initial Catalog = ProjectA; Integrated Security = True");
@@ -173,7 +174,7 @@ namespace MobileInfo.Controllers
 			return View(b);
 		}
 
-		//************************** Mobile ***********************//
+//********************************************* Mobile ***********************************************//
 		public ActionResult MIndex()
 		{
 			using (DB16Entities db = new DB16Entities())
@@ -183,22 +184,13 @@ namespace MobileInfo.Controllers
 
 		}
 
-
 		[HttpGet]
 		public ActionResult RegisterMobile(int id = 0)
 		{
 			ViewBag.BrandId = new SelectList(db.Brands, "Id", "Name");
-			//Mobile m = new Mobile();
-			//using (DB16Entities db = new DB16Entities())
-			//{
-	//		if (id != 0)
-		//		{
-			//		m = db.Mobiles.Where(x => x.Id == id).FirstOrDefault();
-				//}
-			//	m.BrandCollection = db.Brands.ToList<Brand>();
-		//	}
 			return View();
 		}
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult RegisterMobile(Mobile obj)
@@ -213,7 +205,6 @@ namespace MobileInfo.Controllers
 			{
 				db.Mobiles.Add(obj);
 				db.SaveChanges();
-				//ViewBag.Id = new SelectList(db.Brands, "Id", "Name", obj.BrandId);
 				ModelState.Clear();
 				obj = null;
 
@@ -274,11 +265,13 @@ namespace MobileInfo.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult MDeleteConfirmed(int id)
 		{
-			string que = "SELECT Id From Mobile WHERE BrandId = '" + id + "'";
+			string que = "SELECT Id From Pictures WHERE MobileId = '" + id + "'";
 			if (con1.State == System.Data.ConnectionState.Closed)
 			{
 				con1.Open();
 			}
+
+
 			SqlCommand cmd = new SqlCommand(que, con1);
 			SqlDataReader reader = cmd.ExecuteReader();
 			List<Int32> list1 = new List<Int32>();
@@ -289,11 +282,11 @@ namespace MobileInfo.Controllers
 			{
 				v = Int32.Parse(reader[0].ToString());
 				int b = v;
-				db.Mobiles.Where(x => x.Id == b).ToList().ForEach(x => db.Mobiles.Remove(x));
+				db.Pictures.Where(x => x.Id == b).ToList().ForEach(x => db.Pictures.Remove(x));
 				i++;
 			}
-			Brand user = db.Brands.Find(id);
-			db.Brands.Remove(user);
+			Mobile m = db.Mobiles.Find(id);
+			db.Mobiles.Remove(m);
 			db.SaveChanges();
 			return RedirectToAction("MIndex");
 		}
@@ -336,28 +329,19 @@ namespace MobileInfo.Controllers
             }
         }
 
+//***************************************** Pictures ******************************************//
 		public ActionResult PIndex()
 		{
 			using (DB16Entities db = new DB16Entities())
 			{
 				return View(db.Pictures.ToList());
 			}
-
 		}
 
 		[HttpGet]
 		public ActionResult RegisterPicture(int id = 0)
 		{
 			ViewBag.MobileId = new SelectList(db.Mobiles, "Id", "Name");
-			//Mobile m = new Mobile();
-			//using (DB16Entities db = new DB16Entities())
-			//{
-			//		if (id != 0)
-			//		{
-			//		m = db.Mobiles.Where(x => x.Id == id).FirstOrDefault();
-			//}
-			//	m.BrandCollection = db.Brands.ToList<Brand>();
-			//	}
 			return View();
 		}
 		
@@ -411,9 +395,7 @@ namespace MobileInfo.Controllers
 
 			db.Entry(obj).State = EntityState.Modified;
 			db.SaveChanges();
-
-			//ViewBag.Id = new SelectList(db.Mobiles, "Id", "Name", obj.MobileId);
-			return RedirectToAction("MIndex");
+			return RedirectToAction("PIndex");
 
 		}
 
@@ -435,16 +417,7 @@ namespace MobileInfo.Controllers
 		[HttpPost, ActionName("PDelete")]
 		[ValidateAntiForgeryToken]
 		public ActionResult PDeleteConfirmed(int id)
-		{
-			/*
-			Picture user = db.Pictures.Find(id);
-			//dbStudent student = db.dbStudents.SingleOrDefault(x => x.S_Email == user.LoginEmail);
-			//db.dbStudents.Remove(student);
-			db.Pictures.Remove(user);
-			db.SaveChanges();
-			return RedirectToAction("MPIndex");
-			*/
-			
+		{		
 			Picture p = db.Pictures.Find(id);
 			db.Pictures.Remove(p);
 			db.SaveChanges();
