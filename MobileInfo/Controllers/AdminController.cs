@@ -84,10 +84,9 @@ namespace MobileInfo.Controllers
 				obj = null;
 	
 				ViewBag.Message = "Registered Successful";
-				return RedirectToAction("RegisterBrand");
+				return RedirectToAction("MIndex");
 			}
 		}
-
 
 		[HttpGet]
 		public ActionResult Edit(int? id)
@@ -209,7 +208,7 @@ namespace MobileInfo.Controllers
 				obj = null;
 
 				TempData["msg"] = "<script>alert('Register successfully');</script>";
-				return RedirectToAction("RegisterMobile");
+				return RedirectToAction("MIndex");
 			}
 		}
 
@@ -363,7 +362,7 @@ namespace MobileInfo.Controllers
 				obj = null;
 
 				TempData["msg"] = "<script>alert('Register successfully');</script>";
-				return RedirectToAction("RegisterPicture");
+				return RedirectToAction("PIndex");
 			}
 		}
 

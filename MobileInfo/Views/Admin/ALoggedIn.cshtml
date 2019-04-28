@@ -3,10 +3,11 @@
 	ViewBag.Title = "ALoggedIn";
 }
 
+<ul style="list-style-type:disc;margin-left:500px;font-size:x-large;text-decoration:solid">
+	<li><a @Html.ActionLink("Brands List", "BIndex", "Admin")</a></li>
 
-<li><a @Html.ActionLink("Brands List", "BIndex", "Admin")</a></li>
+	<li><a @Html.ActionLink("Mobile list", "MIndex", "Admin")</a></li>
 
-<li><a @Html.ActionLink("Mobile list", "MIndex", "Admin")</a></li>
-
-<li><a @Html.ActionLink("Pictures list", "PIndex", "Admin")</a></li>
-<li><a @Html.ActionLink("Pictures list", "PIndex", "Admin")</a></li>
+	<li><a @Html.ActionLink("Pictures list", "PIndex", "Admin")</a></li>
+	<li><a @Html.ActionLink("Pictures list", "PIndex", "Admin")</a></li>
+</ul>

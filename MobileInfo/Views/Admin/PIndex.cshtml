@@ -1,34 +1,125 @@
 ﻿@model IEnumerable<MobileInfo.Models.Picture>
 
-<table class="table">
-	<div style="font-style:initial; font-size:20px ; color:mediumblue; padding-left: 5%; padding-top:1%"> @Html.ActionLink("Go Back", "ALoggedIn")</div>
-	<div style="font-style:initial; font-size:20px ; color:mediumblue; padding-left: 85%; padding-top:-1% "> @Html.ActionLink("Add new Picture", "RegisterPicture")</div>
+<div class="order_list_container" style="background-color:rgb(242,244,248)">
+	<table class="table" style="background-color:lightgray;  border: 1px solid black;border-collapse: collapse">
 
-	<tr>
-		<th>
-			@Html.DisplayNameFor(model => model.MobileId)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Image)
-		</th>
-		<th></th>
-	</tr>
+		<div style="font-style:initial; font-size:20px ; color:mediumblue; padding-left: 5%; padding-top:1%"> @Html.ActionLink("Go Back", "ALoggedIn")</div>
+		<div style="font-style:initial; font-size:20px ; color:mediumblue; padding-left: 85%; padding-top:-1% "> @Html.ActionLink("Add new Picture", "RegisterPicture")</div>
+		<tr style="font-size:20px;color:black">
+			<th>
+				<br />
+			</th>
+			<th>
+				<br />
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.MobileId)
+			</th>
+			<th>
+				<br />
+			</th>
+			<th>
+				<br />
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Image)
+			</th>
+			<th>
+				<br />
+			</th>
+			<th>
+				<br />
+			</th>
+			<th>
+				<br />
+			</th>
+			<th>
+				<br />
+			</th>
+			<th>
+				<br />
+			</th>
+			<th>
+				<br />
+			</th>
+			<th>
+				<br />
+			</th>
+			<th>
+				<br />
+			</th>
+			<th>
+				<br />
+			</th>
+			<th>
+				<br />
+			</th>
 
-	@foreach (var item in Model)
-	{
-		<tr>
+			<th></th>
+		</tr>
+
+		@foreach (var item in Model)
+		{
+		<tr style="font-size:20px;color:black">
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.MobileId)
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
 			</td>
 			<td>
 				<img src="@Url.Content(item.Image)" height="200" width="150" />
 			</td>
 			<td>
-				@Html.ActionLink("Edit", "PEdit", new { id = item.Id }) |
-				@Html.ActionLink("Details", "PDetails", new { id = item.Id }) |
-				@Html.ActionLink("Delete", "PDelete", new { id = item.Id })
+				<br />
 			</td>
-		</tr>
-	}
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td>
+				<br />
+			</td>
+			<td cstyle="font-size:20px; text-align:center ; color:black">
+				<div class="button checkout_button" style="background-color:royalblue;border-radius: 8px; text-align:center ; width:80px; height:65px">
+					@Html.ActionLink("Edit", "PEdit", new { id = item.Id })
+				</div>
+				<div class="button checkout_button" style="background-color: mediumpurple; border-radius: 8px; text-align:center ; width:80px; height:65px">
+					@Html.ActionLink("Delete", "PDelete", new { id = item.Id })
 
-</table>
+				</div>
+			</td>
+
+		</tr>
+		}
+
+	</table>

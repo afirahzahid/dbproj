@@ -25,7 +25,7 @@ namespace MobileInfo.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Country { get; set; }
-		[DisplayName("Upload Image")]
+		[DisplayName("Image")]
         public string Image { get; set; }
     
 		public HttpPostedFileBase ImageFile { get; set; }
